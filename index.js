@@ -1,7 +1,20 @@
 // make variables for the html elements
 const fetchButton = document.getElementById("fetchButton");
-const urlTextBox = document.getElementById("urlTextBox");
+//const urlTextBox = document.getElementById("urlTextBox");
 const dataResultArea = document.getElementById("mainResults");
+
+function showPosition(position){
+    let myURL = `https://api.open-meteo.com/v1/forecast?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m`
+    getRequest(myURL);
+    
+}
+
+function getGeo(){
+    navigator.geolocation.getCurrentPosition(showPosition);
+    //"Latitude: " +  + 
+  //"<br>Longitude: " + position.coords.longitude;
+        
+}
 
 // Make a GET api request
 async function getRequest(someURL) {
@@ -30,15 +43,8 @@ async function getRequest(someURL) {
 // Make the GET request when the fetch button is clicked
 fetchButton.addEventListener('click', async (event) => {
     // fetch whatever URL has been typed into textbox
-    let url = urlTextBox.value;
-    let data = await getRequest(url);
+    getGeo();
     // Do something else with 'data' if you want
 });
 
 
-// Also fetch the URL if it changes
-urlTextBox.addEventListener('change', async (event) => {
-    let url = urlTextBox.value;
-    let data = await getRequest(url);
-    // Do something else with 'data' if you want
-});
